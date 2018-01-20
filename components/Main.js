@@ -5,21 +5,28 @@ import DeckApi from "../api/DeckApi";
 class Main extends Component {
 
     state = {
-        decks: {}
+        decks: []
     };
 
     componentDidMount() {
-        var decks = DeckApi.getAll();
-        this.setState({decks});
-        // DeckApi.getAll().then((decks) => {
-        //     console.log(decks);
-        //     this.setState(decks);
-        // });
+        this.updateDecks();
+    }
+
+    updateDecks() {
+        DeckApi.getAll().then(decks => {
+            this.setState({decks});
+        });
+    }
+
+    saveDeck(name, deck) {
+        DeckApi.save(name, deck).then(() => {
+            this.updateDecks();
+        });
     }
 
     render() {
         return <DeckList decks={this.state.decks}
-                         addDeck={(name, deck) => this.saveDeck(name, deck)}
+                         saveDeck={(name, deck) => this.saveDeck(name, deck)}
                          navigation={this.props.navigation}/>;
     }
 }

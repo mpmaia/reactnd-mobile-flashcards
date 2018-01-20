@@ -31,10 +31,17 @@ export default class AddDeck extends React.Component {
     };
 
     addDeck(name) {
-        if(name) {
-            DeckApi.save(name);
-            this.props.navigation.dispatch(NavigationActions.back());
+
+        var callback = this.props.addDeck;
+        if(!callback) {
+            callback = this.props.navigation.state.params.addDeck;
         }
+
+        if(callback) {
+            callback(name);
+        }
+
+        this.props.navigation.dispatch(NavigationActions.back());
     }
 
     render() {

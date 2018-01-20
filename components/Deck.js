@@ -31,7 +31,19 @@ export default class Deck extends React.Component {
 
     addQuestion(q) {
         var deck = {title: this.state.deck.title, questions: [...this.state.deck.questions, q]};
+        this.saveDeck(deck);
         this.setState({deck});
+    }
+
+    saveDeck(deck) {
+        var callback = this.props.saveDeck;
+        if(!callback) {
+            callback = this.props.navigation.state.params.saveDeck;
+        }
+
+        if(callback) {
+            callback(deck.title, deck);
+        }
     }
 
     render() {
@@ -43,9 +55,14 @@ export default class Deck extends React.Component {
                     deck={this.state.deck}
                     allowPress={false}
                 />
-                <View style={styles.button}>
-                    <Button onPress={() => this.props.navigation.navigate('Quiz', {deck: this.state.deck})} title="Start a Quiz"/>
-                </View>
+                {(this.state.deck.questions.length > 0) ?
+                    <View style={styles.button}>
+                        <Button onPress={() => this.props.navigation.navigate('Quiz', {deck: this.state.deck})}
+                                title="Start a Quiz"/>
+                    </View>
+                    :
+                    []
+                }
                 <View style={styles.button}>
                     <Button onPress={() => this.props.navigation.navigate('AddQuestion', {addQuestion: (question) => this.addQuestion(question)})} title="Create New Question"/>
                 </View>

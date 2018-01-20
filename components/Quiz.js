@@ -120,7 +120,7 @@ export default class Quiz extends React.Component {
         } else if(this.state.review) {
             content = (
                 <View>
-                    <Text style={styles.question}>{`You got ${this.state.right} question${this.state.right>1?'s':''} right`}</Text>
+                    <Text style={styles.question}>{`You got ${this.state.right} question${this.state.right==1?'':'s'} right`}</Text>
                     <View>
                         <View style={styles.button}>
                             <Button onPress={() => this.restart()} title="Restart Quiz"/>

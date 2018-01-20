@@ -8,7 +8,11 @@ import {
 import DeckItem from "./DeckItem";
 
 const styles = StyleSheet.create({
-    list: {
+    noDecks: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        alignItems: 'center',
+        padding: 20
     },
     container: {
         flex: 1,
@@ -20,35 +24,49 @@ const styles = StyleSheet.create({
 
 export default class DeckList extends React.Component  {
 
-    componentDidMount() {
+    saveDeck(name, deck) {
+        var callback = this.props.saveDeck;
+        if(!callback) {
+            callback = this.props.navigation.state.params.saveDeck;
+        }
 
+        if(callback) {
+            callback(name, deck);
+        }
     }
 
     render() {
-        var { decks, navigation } = this.props;
-        if (decks.length > 0) {
-            return (
-                <View style={styles.container}>
-                    <FlatList
-                        data={decks}
-                        style={styles.list}
-                        keyExtractor={(item) => item.title}
-                        renderItem={({ item }) => {
-                            return (
-                                <View>
-                                    <DeckItem
-                                        onPress={(deck) => navigation.navigate('Deck', {title: deck.title, deck})}
-                                        deck={item}
-                                    />
-                                </View>
-                            )
-                        }}
-                    />
-                    <Button onPress={() => this.props.navigation.navigate('AddDeck')} title="New Deck"/>
-                </View>
-            )
-        } else {
-            return <Text>No decks</Text>
-        }
+        var { navigation, decks } = this.props;
+
+        return (
+            <View style={styles.container}>
+                {
+                    (decks.length > 0)?
+                        <FlatList
+                            data={decks}
+                            style={styles.list}
+                            extraData={decks.length}
+                            keyExtractor={(item) => item.title}
+                            renderItem={({ item }) => {
+                                return (
+                                    <View>
+                                        <DeckItem
+                                            onPress={(deck) => navigation.navigate('Deck', {
+                                                title: deck.title,
+                                                deck,
+                                                saveDeck: (name, deck) => this.saveDeck(name, deck)
+                                            })}
+                                            deck={item}
+                                        />
+                                    </View>
+                                )
+                            }}
+                        />
+                        :
+                        <Text style={styles.noDecks}>No decks</Text>
+                }
+                <Button onPress={() => this.props.navigation.navigate('AddDeck', {addDeck: (name) => this.saveDeck(name)})} title="New Deck"/>
+            </View>
+        );
     }
 }

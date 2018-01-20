@@ -1,8 +1,7 @@
 import { AsyncStorage } from 'react-native'
 
-initialState = [
-    {
-        title: 'English-Italian',
+const initialState = {
+    'English-Italian': {
         questions: [
             {
                 question: 'To walk',
@@ -10,8 +9,7 @@ initialState = [
             }
         ]
     },
-    {
-        title: 'English-Portuguese',
+    'English-Portuguese': {
         questions: [
             {
                 question: 'To translate',
@@ -23,9 +21,9 @@ initialState = [
             }
         ]
     }
-];
+};
 
-const DECK_LIST = "DECK_LIST";
+const DECK_LIST = "DECKS";
 
 class DeckApi {
 
@@ -42,23 +40,22 @@ class DeckApi {
             deck = {questions:[]};
         }
 
-        initialState.push(this.convertDeckFromStorage(name, deck));
-
         return AsyncStorage.mergeItem(DECK_LIST, JSON.stringify({
             [name]: deck
         }));
     }
 
     getAll() {
-        return initialState;
-        /*
+        //https://github.com/facebook/react-native/issues/14101
         return AsyncStorage.getItem(DECK_LIST).then(decks => {
             if(!decks) {
                 AsyncStorage.mergeItem(DECK_LIST, JSON.stringify(initialState));
                 decks=initialState;
+            } else {
+                decks = JSON.parse(decks);
             }
-            return decks;
-        })*/
+            return Object.keys(decks).map((k) => this.convertDeckFromStorage(k, decks[k]));
+        });
     }
 }
 

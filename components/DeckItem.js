@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: '#000000',
-        margin: 15,
+        margin: 10,
         padding: 10,
         maxHeight: 80
     },
@@ -35,7 +35,7 @@ export default class DeckItem extends React.Component {
         }
 
         const count = deck.questions.length;
-        const questionCount = `${count} card${count>1?"s":""}`;
+        const questionCount = `${count} card${count==1?"":"s"}`;
 
         var CardView = (
             <View style={styles.item}>
