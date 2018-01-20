@@ -55,6 +55,10 @@ export default class AddQuestion extends React.Component {
         this.props.navigation.dispatch(NavigationActions.back());
     }
 
+    valid() {
+        return !!this.state.question && !!this.state.answer;
+    }
+
     render() {
 
         return(
@@ -74,7 +78,7 @@ export default class AddQuestion extends React.Component {
                         onChangeText={(answer) => this.setState({answer})}
                     />
                     <View style={styles.button}>
-                        <Button onPress={() => this.addQuestion()} title="Create question"/>
+                        <Button onPress={() => this.addQuestion()} disabled={!this.valid()} title="Create question"/>
                     </View>
                     <View style={styles.button}>
                         <Button onPress={() => this.goBack()} color="#FF0000" title="Cancel"/>

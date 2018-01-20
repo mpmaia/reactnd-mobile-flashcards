@@ -44,6 +44,10 @@ export default class AddDeck extends React.Component {
         this.props.navigation.dispatch(NavigationActions.back());
     }
 
+    valid() {
+        return !!this.state.name;
+    }
+
     render() {
 
         return(
@@ -55,7 +59,7 @@ export default class AddDeck extends React.Component {
                         style={styles.input}
                         onChangeText={(name) => this.setState({name})}
                     />
-                    <Button onPress={() => this.addDeck(this.state.name)} style={styles.button} title="Create Deck"/>
+                    <Button onPress={() => this.addDeck(this.state.name)} disabled={!this.valid()} style={styles.button} title="Create Deck"/>
                 </View>
             </KeyboardAvoidingView>
         );
