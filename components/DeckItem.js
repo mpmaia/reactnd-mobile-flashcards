@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -17,32 +17,51 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#000000',
         margin: 15,
-        padding: 10
+        padding: 10,
+        maxHeight: 80
     },
     button: {
 
     }
 });
 
-export default class DeckItem extends Component {
+export default class DeckItem extends React.Component {
     render() {
 
-        const { deck, navigation } = this.props;
+        const { deck, onPress } = this.props;
+
+        if(!deck) {
+            return (<Text>No deck supplied</Text>);
+        }
+
         const count = deck.questions.length;
-        const cardCount = `${count} card${count>1?"s":""}`;
-        return (
-            <TouchableOpacity
-                onPress={() => navigation.navigate('deckView', {title: deck.title})}>
-                <View style={styles.item}>
-                    <View>
-                        <Text style={styles.title}>{deck.title}</Text>
-                        <Text style={styles.count}>{cardCount}</Text>
-                    </View>
-                    <View style={styles.button}>
-                        <MaterialIcons name="navigate-next" size={40} color="#000000" />
-                    </View>
+        const questionCount = `${count} card${count>1?"s":""}`;
+
+        var CardView = (
+            <View style={styles.item}>
+                <View>
+                    <Text style={styles.title}>{deck.title}</Text>
+                    <Text style={styles.count}>{questionCount}</Text>
                 </View>
-            </TouchableOpacity>
-        );
+                {
+                    (onPress?(
+                        <View style={styles.button}>
+                            <MaterialIcons name="navigate-next" size={40} color="#000000" />
+                        </View>):[])
+                }
+            </View>);
+
+        if(onPress) {
+            return (
+                <TouchableOpacity
+                    onPress={() => onPress(deck)}>
+                    {CardView}
+                </TouchableOpacity>
+            );
+        } else {
+            return (
+                CardView
+            );
+        }
     }
 }

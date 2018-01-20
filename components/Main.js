@@ -1,10 +1,4 @@
 import React, { Component } from "react"
-import {
-    Text,
-    View,
-    StyleSheet,
-    FlatList
-} from "react-native"
 import DeckList from "./DeckList";
 import DeckApi from "../api/DeckApi";
 
@@ -24,7 +18,9 @@ class Main extends Component {
     }
 
     render() {
-        return <DeckList decks={this.state.decks} navigation={this.props.navigation}/>;
+        return <DeckList decks={this.state.decks}
+                         addDeck={(name, deck) => this.saveDeck(name, deck)}
+                         navigation={this.props.navigation}/>;
     }
 }
 

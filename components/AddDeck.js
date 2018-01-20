@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet, Alert, KeyboardAvoidingView, TouchableOpacity, Button} from 'react-native';
+import {View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Button} from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import DeckApi from "../api/DeckApi";
 
 const styles = StyleSheet.create({
     container: {
@@ -11,12 +12,15 @@ const styles = StyleSheet.create({
         paddingLeft: 20
     },
     question: {
-        fontSize: 16,
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20
     },
     input: {
         marginTop: 10,
         marginBottom: 10,
-        fontSize: 16
+        fontSize: 16,
+        textAlignVertical: "top" //for android
     }
 });
 
@@ -27,10 +31,10 @@ export default class AddDeck extends React.Component {
     };
 
     addDeck(name) {
-        if(this.props.addDeck) {
-            this.props.addDeck(name);
+        if(name) {
+            DeckApi.save(name);
+            this.props.navigation.dispatch(NavigationActions.back());
         }
-        this.props.navigation.dispatch(NavigationActions.back());
     }
 
     render() {
@@ -44,7 +48,7 @@ export default class AddDeck extends React.Component {
                         style={styles.input}
                         onChangeText={(name) => this.setState({name})}
                     />
-                    <Button onPress={() => this.addDeck(this.state.name)} style={styles.button} title="Create new deck"/>
+                    <Button onPress={() => this.addDeck(this.state.name)} style={styles.button} title="Create Deck"/>
                 </View>
             </KeyboardAvoidingView>
         );

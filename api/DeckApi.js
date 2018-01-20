@@ -29,7 +29,21 @@ const DECK_LIST = "DECK_LIST";
 
 class DeckApi {
 
+    convertDeckFromStorage(name, deck) {
+        return {
+            ...deck,
+            title: name
+        }
+    }
+
     save(name, deck) {
+
+        if(!deck) {
+            deck = {questions:[]};
+        }
+
+        initialState.push(this.convertDeckFromStorage(name, deck));
+
         return AsyncStorage.mergeItem(DECK_LIST, JSON.stringify({
             [name]: deck
         }));

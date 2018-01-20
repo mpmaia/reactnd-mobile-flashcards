@@ -1,9 +1,9 @@
-import React, { Component } from "react"
+import React from "react"
 import {
     Text,
     View,
     StyleSheet,
-    FlatList, TouchableOpacity, Button
+    FlatList, Button
 } from "react-native"
 import DeckItem from "./DeckItem";
 
@@ -18,14 +18,14 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class DeckList extends Component {
+export default class DeckList extends React.Component  {
 
     componentDidMount() {
 
     }
 
     render() {
-        var { decks } = this.props;
+        var { decks, navigation } = this.props;
         if (decks.length > 0) {
             return (
                 <View style={styles.container}>
@@ -37,9 +37,8 @@ export default class DeckList extends Component {
                             return (
                                 <View>
                                     <DeckItem
-                                        navigation={this.props.navigation}
+                                        onPress={(deck) => navigation.navigate('Deck', {title: deck.title, deck})}
                                         deck={item}
-                                        key={item.title}
                                     />
                                 </View>
                             )

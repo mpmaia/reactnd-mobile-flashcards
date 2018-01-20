@@ -4,6 +4,9 @@ import Main from "./components/Main";
 import { Constants } from 'expo'
 import { StackNavigator } from 'react-navigation'
 import AddDeck from "./components/AddDeck";
+import Deck from "./components/Deck";
+import AddQuestion from "./components/AddQuestion";
+import Quiz from "./components/Quiz";
 
 function MyStatusBar ({backgroundColor, ...props}) {
     return (
@@ -24,6 +27,24 @@ const MainNavigator = StackNavigator({
         screen: AddDeck,
         navigationOptions: {
             title: 'Add new deck'
+        }
+    },
+    Deck: {
+        screen: Deck,
+        navigationOptions: {
+            title: 'Deck'
+        }
+    },
+    AddQuestion: {
+        screen: AddQuestion,
+        navigationOptions: {
+            title: 'Add question'
+        }
+    },
+    Quiz: {
+        screen: Quiz,
+        navigationOptions: {
+            title: 'Quiz'
         }
     }
 });
