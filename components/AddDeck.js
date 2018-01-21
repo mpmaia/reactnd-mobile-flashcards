@@ -47,7 +47,7 @@ export default class AddDeck extends React.Component {
         var deck = { title: name, questions:[]};
 
         this.saveDeck(name, deck);
-        
+
         this.props.navigation.dispatch(NavigationActions.back());
         this.props.navigation.navigate('Deck', {
             title: name,

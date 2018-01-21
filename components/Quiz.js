@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import {clearLocalNotification, setLocalNotification} from "../helpers/notification";
 
 const styles = StyleSheet.create({
     container: {
@@ -63,6 +64,7 @@ export default class Quiz extends React.Component {
                 return {answer: null, currentQuestion: prevState.currentQuestion+1}
             });
         } else {
+            clearLocalNotification().then(setLocalNotification());
             this.setState({review: true, answer: null});
         }
     }
