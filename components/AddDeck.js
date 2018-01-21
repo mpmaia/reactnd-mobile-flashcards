@@ -30,18 +30,30 @@ export default class AddDeck extends React.Component {
         name: ''
     };
 
-    addDeck(name) {
+    saveDeck(name, deck) {
 
-        var callback = this.props.addDeck;
+        var callback = this.props.saveDeck;
         if(!callback) {
-            callback = this.props.navigation.state.params.addDeck;
+            callback = this.props.navigation.state.params.saveDeck;
         }
 
         if(callback) {
-            callback(name);
+            callback(name, deck);
         }
+    }
 
+    addDeck(name) {
+
+        var deck = { title: name, questions:[]};
+
+        this.saveDeck(name, deck);
+        
         this.props.navigation.dispatch(NavigationActions.back());
+        this.props.navigation.navigate('Deck', {
+            title: name,
+            deck,
+            saveDeck: (name, deck) => this.saveDeck(name, deck)
+        });
     }
 
     valid() {

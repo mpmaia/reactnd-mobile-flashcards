@@ -23,7 +23,7 @@ const initialState = {
     }
 };
 
-const DECK_LIST = "DECKS";
+const DECK_LIST = "DECK_LIST";
 
 class DeckApi {
 

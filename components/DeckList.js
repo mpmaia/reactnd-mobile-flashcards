@@ -65,7 +65,7 @@ export default class DeckList extends React.Component  {
                         :
                         <Text style={styles.noDecks}>No decks</Text>
                 }
-                <Button onPress={() => this.props.navigation.navigate('AddDeck', {addDeck: (name) => this.saveDeck(name)})} title="New Deck"/>
+                <Button onPress={() => this.props.navigation.navigate('AddDeck', {saveDeck: (name, deck) => this.saveDeck(name, deck)})} title="New Deck"/>
             </View>
         );
     }
